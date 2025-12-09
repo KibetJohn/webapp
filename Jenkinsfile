@@ -7,6 +7,7 @@ pipeline {
             steps {
                 script {
                     docker.image('maven:3.6.3-jdk-11').inside {
+                        sh 'ls'
                         sh 'mvn clean install'
                     }
                 }

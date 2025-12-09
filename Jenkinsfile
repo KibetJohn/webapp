@@ -29,7 +29,7 @@ pipeline {
     }
     
     stages {
-        stage('Checkout Application Code') {
+        stage('Set Image Tag') {
             steps {
                 script {        
                     // Get short commit hash for tagging

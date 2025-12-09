@@ -17,10 +17,10 @@ RUN apt-get update && apt-get install -y \
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Copy the application files to the working directory
-COPY app/ ./
+##COPY app/ ./
 
 # Install PHP dependencies using Composer
-RUN composer install --no-dev --optimize-autoloader --no-interaction
+##RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Stage 2: Final Stage
 # Use the official PHP 8.3 image with Apache for the final image
@@ -40,7 +40,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy application files from the builder stage
-COPY --from=builder /var/www/html /var/www/html
+##COPY --from=builder /var/www/html /var/www/html
 
 # Set the correct permissions for the web server
 RUN chown -R www-data:www-data /var/www/html \

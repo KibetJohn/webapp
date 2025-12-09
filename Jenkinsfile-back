@@ -1,7 +1,7 @@
 pipeline {
     agent none  // No global agent, each stage will define its own
     environment {
-        DOCKER_CONFIG = '/tmp/.docker'  // Set to a directory with write access
+//        DOCKER_CONFIG = '/tmp/.docker'  // Set to a directory with write access
         repoUri = "harbor.pdslkenya.com:80/pdsl"
         repoRegistryUrl = "http://harbor.pdslkenya.com"
         registryCreds = 'ecr:eu-west-2:awscreds'
@@ -10,12 +10,6 @@ pipeline {
 
     stages {
         stage('Docker Test') {
-            agent {
-                docker {
-                    image 'docker:latest'
-                    args '-v /var/run/docker.sock:/var/run/docker.sock'  // Mount Docker socket
-                }
-            }
             steps {
                 script {
                     sh 'docker ps'
@@ -24,12 +18,6 @@ pipeline {
         }
 
         stage('Build Docker Image') {
-            agent {
-                docker {
-                    image 'docker:latest'
-                    args '-v /var/run/docker.sock:/var/run/docker.sock'  // Mount Docker socket
-                }
-            }
             steps {
                 script {
                     echo 'Building Docker Image from Dockerfile...'
@@ -40,12 +28,6 @@ pipeline {
         }
 
         stage('Push Docker Image to ECR') {
-            agent {
-                docker {
-                    image 'docker:latest'
-                    args '-v /var/run/docker.sock:/var/run/docker.sock'  // Mount Docker socket
-                }
-            }
             steps {
                 script {
                     echo "Pushing Docker Image to Harbor..."

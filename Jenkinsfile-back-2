@@ -1,0 +1,25 @@
+pipeline {
+    agent {
+        label 'vmagent'
+    }
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    docker.image('harbor.pdslkenya.com:80/pdsl/nginx:latest').inside {
+                        sh 'ls'
+                    }
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                script {
+                    docker.image('harbor.pdslkenya.com:80/pdsl/nginx:latest').inside {
+                        sh 'ls'
+                    }
+                }
+            }
+        }
+    }
+}

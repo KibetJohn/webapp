@@ -31,20 +31,7 @@ pipeline {
     stages {
         stage('Checkout Application Code') {
             steps {
-                script {
-                    checkout([
-                        $class: 'GitSCM',
-                        branches: [[name: '*/main']],
-                        extensions: [
-                            [$class: 'CloneOption', depth: 1, shallow: true],
-                            [$class: 'CleanBeforeCheckout']
-                        ],
-                        userRemoteConfigs: [[
-                            url: "${APP_REPO_URL}",
-                            credentialsId: "${GIT_SSH_CREDENTIALS_ID}"
-                        ]]
-                    ])
-                    
+                script {        
                     // Get short commit hash for tagging
                 //    env.GIT_COMMIT_SHORT = sh(
                 //        script: 'git rev-parse --short HEAD',

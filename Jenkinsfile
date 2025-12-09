@@ -59,10 +59,11 @@ pipeline {
 
         stage('Deploy to ECS') {
             agent {
-//                docker {
+                docker {
+                      image 'docker:latest'
 //                    #image 'amazon/aws-cli:latest'  // Use a pre-built AWS CLI Docker image for ECS deployment
-//                    #args '-v /var/run/docker.sock:/var/run/docker.sock --entrypoint=""'  // Optional if needed by AWS CLI
-//                }
+                    args '-v /var/run/docker.sock:/var/run/docker.sock --entrypoint=""'  // Optional if needed by AWS CLI
+                }
             }
             steps {
                 script {

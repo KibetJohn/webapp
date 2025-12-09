@@ -5,6 +5,9 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+                checkout scmGit(
+                         branches: [[name: 'main']],
+                         userRemoteConfigs: [[url: 'https://github.com/KibetJohn/webapp.git']])
                 script {
                     docker.image('maven:3.6.3-jdk-11').inside {
                         sh 'mvn clean install'

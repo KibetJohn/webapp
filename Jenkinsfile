@@ -17,9 +17,8 @@ pipeline {
                 // }
                 //}
                 script {
-                    docker.image('maven:3.6.3-jdk-11').inside {
+                    docker.image('harbor.pdslkenya.com:80/pdsl/nginx:latest').inside {
                         sh 'ls'
-                        sh 'mvn clean install'
                     }
                 }
             }
@@ -27,8 +26,8 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    docker.image('maven:3.6.3-jdk-11').inside {
-                        sh 'mvn test'
+                    docker.image('harbor.pdslkenya.com:80/pdsl/nginx:latest').inside {
+                        sh 'ls'
                     }
                 }
             }

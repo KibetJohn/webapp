@@ -5,7 +5,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                //retry(3) {
+                //retry(2) {
                 //  timeout(time: 2, unit: 'MINUTES') {
                 //  checkout([$class: 'GitSCM',
                 //  branches: [[name: "main"]],

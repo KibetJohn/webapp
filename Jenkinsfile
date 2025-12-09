@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'main-agent' // Ensure this matches the label of your Docker in Docker agent
+        label 'vmagent' // Ensure this matches the label of your Docker in Docker agent
     }
     stages {
         stage('Build') {

@@ -1,3 +1,5 @@
+@Library('pdsl-shared-libs@main') _
+
 pipeline {
     agent {
         label 'vmagent'
@@ -51,8 +53,8 @@ pipeline {
                     }
                     
                     // Build Docker image
-                    docker.build("${FULL_IMAGE_NAME}:${IMAGE_TAG}")
-                    
+                    //docker.build("${FULL_IMAGE_NAME}:${IMAGE_TAG}")
+                     build_image("pdsl-user-svc",     args: [ VAULT_PSWD: 'main', push: true ] )
                     // Also tag as latest for internal reference
                     //sh "docker tag ${FULL_IMAGE_NAME}:${IMAGE_TAG} ${FULL_IMAGE_NAME}:latest"
                 }
@@ -97,9 +99,9 @@ pipeline {
                 //    }
                     
                     // Push the tagged image
-                    sh "docker push ${FULL_IMAGE_NAME}:${IMAGE_TAG}"
-                    
-                    echo "Image pushed: ${FULL_IMAGE_NAME}:${IMAGE_TAG}"
+                    #sh "docker push ${FULL_IMAGE_NAME}:${IMAGE_TAG}"
+                    push_image()
+                   // echo "Image pushed: ${FULL_IMAGE_NAME}:${IMAGE_TAG}"
                 }
             }
         }

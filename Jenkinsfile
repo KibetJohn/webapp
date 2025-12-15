@@ -54,7 +54,7 @@ pipeline {
                     
                     // Build Docker image
                     //docker.build("${FULL_IMAGE_NAME}:${IMAGE_TAG}")
-                     build_image("pdsl-user-svc",     args: [ VAULT_PSWD: 'main', push: true ] )
+                     build_image("pdsl-user-svc", "${env.BUILD_NUMBER}", [ VAULT_PSWD: "main"] )
                     // Also tag as latest for internal reference
                     //sh "docker tag ${FULL_IMAGE_NAME}:${IMAGE_TAG} ${FULL_IMAGE_NAME}:latest"
                 }

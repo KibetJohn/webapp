@@ -1,4 +1,5 @@
 @Library('pdsl-shared-libs@main') _
+service_name="sms-auth-service"
 
 pipeline {
     agent {
@@ -9,14 +10,6 @@ pipeline {
         // Repository URLs
         APP_REPO_URL = 'git@github.com:yourorg/your-application.git'
         MANIFESTS_REPO_URL = 'git@github.com:yourorg/kubernetes-manifests.git'
-        
-        // Docker configuration
-        DOCKER_REGISTRY = 'harbor.pdslkenya.com:80'
-        DOCKER_PROJECT = 'pdsl'
-        DOCKER_IMAGE_NAME = 'web-app'
-        FULL_IMAGE_NAME = "${DOCKER_REGISTRY}/${DOCKER_PROJECT}/${DOCKER_IMAGE_NAME}"
-        IMAGE_TAG = "${env.BUILD_NUMBER}"
-        
         // Git configuration
         GIT_SSH_CREDENTIALS_ID = '20d5ba58-bee3-4658-afb1-94ed0bfb00ee'
         DOCKER_REGISTRY_CREDENTIALS_ID = 'harbor-credentials'
@@ -25,24 +18,11 @@ pipeline {
         MANIFESTS_BRANCH = 'main'
         HELM_CHART_PATH = 'charts/your-app'
         VALUES_FILE = 'charts/your-app/values.yaml'
-        
         // Application-specific
         APP_NAME = 'web-app'
     }
     
     stages {
-        stage('Set Image Tag') {
-            steps {
-                script {        
-                    // Get short commit hash for tagging
-                //    env.GIT_COMMIT_SHORT = sh(
-                //        script: 'git rev-parse --short HEAD',
-                //        returnStdout: true
-                //    ).trim()
-                    env.IMAGE_TAG = "${env.BUILD_NUMBER}"
-                }
-            }
-        }
         
         stage('Build Docker Image') {
             steps {
@@ -52,11 +32,7 @@ pipeline {
                         error("Dockerfile not found in repository root")
                     }
                     
-                    // Build Docker image
-                    //docker.build("${FULL_IMAGE_NAME}:${IMAGE_TAG}")
-                     build_image("pdsl-user-svc", "${env.BUILD_NUMBER}", [ VAULT_PSWD: "main"] )
-                    // Also tag as latest for internal reference
-                    //sh "docker tag ${FULL_IMAGE_NAME}:${IMAGE_TAG} ${FULL_IMAGE_NAME}:latest"
+                     build_image("${service_name}", "${env.BUILD_NUMBER}", [ VAULT_PSWD: "main"] )
                 }
             }
         }
@@ -65,7 +41,7 @@ pipeline {
             steps {
                 script {
                     // Run tests inside the built container
-                    docker.image("${FULL_IMAGE_NAME}:${IMAGE_TAG}").inside {
+                   // docker.image("${FULL_IMAGE_NAME}:${IMAGE_TAG}").inside {
                         sh '''
                             echo "Running tests..."
                             # Add your test commands here, e.g.:
@@ -75,7 +51,7 @@ pipeline {
                             # mvn test
                             echo "Tests completed successfully"
                         '''
-                    }
+                    //}
                 }
             }
         }
@@ -99,9 +75,7 @@ pipeline {
                 //    }
                     
                     // Push the tagged image
-                    //sh "docker push ${FULL_IMAGE_NAME}:${IMAGE_TAG}"
-                    push_image()
-                   // echo "Image pushed: ${FULL_IMAGE_NAME}:${IMAGE_TAG}"
+                    push_image("${service_name}")
                 }
             }
         }

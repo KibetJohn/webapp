@@ -99,7 +99,7 @@ pipeline {
                 //    }
                     
                     // Push the tagged image
-                    #sh "docker push ${FULL_IMAGE_NAME}:${IMAGE_TAG}"
+                    //sh "docker push ${FULL_IMAGE_NAME}:${IMAGE_TAG}"
                     push_image()
                    // echo "Image pushed: ${FULL_IMAGE_NAME}:${IMAGE_TAG}"
                 }
